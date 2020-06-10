@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PIFFS
 {
+    /// <summary>
+    /// Copy and pasted from Stack Overflow
+    /// </summary>
     public class ScreenCapture
     {
-        /// <summary>
-        /// Creates an Image object containing a screen shot of the entire desktop
-        /// </summary>
-        /// <returns></returns>
-        public Image CaptureScreen()
-        {
-            return CaptureWindow(User32.GetDesktopWindow());
-        }
+
         /// <summary>
         /// Creates an Image object containing a screen shot of a specific window
         /// </summary>
@@ -52,27 +43,6 @@ namespace PIFFS
             // free up the Bitmap object
             GDI32.DeleteObject(hBitmap);
             return img;
-        }
-        /// <summary>
-        /// Captures a screen shot of a specific window, and saves it to a file
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <param name="filename"></param>
-        /// <param name="format"></param>
-        public void CaptureWindowToFile(IntPtr handle, string filename, ImageFormat format)
-        {
-            Image img = CaptureWindow(handle);
-            img.Save(filename, format);
-        }
-        /// <summary>
-        /// Captures a screen shot of the entire desktop, and saves it to a file
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="format"></param>
-        public void CaptureScreenToFile(string filename, ImageFormat format)
-        {
-            Image img = CaptureScreen();
-            img.Save(filename, format);
         }
 
         /// <summary>

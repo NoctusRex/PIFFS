@@ -49,10 +49,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameState.cs" />
+    <Compile Include="CommandLineArguments\Command.cs" />
+    <Compile Include="CommandLineArguments\CommandHandler.cs" />
+    <Compile Include="CommandLineArguments\ConfigurationCommand.cs" />
+    <Compile Include="CommandLineArguments\HelpCommand.cs" />
+    <Compile Include="GameHandling\GameState.cs" />
+    <Compile Include="GameHandling\GameStateHandler.cs" />
+    <Compile Include="Environment\Input.cs" />
+    <Compile Include="GameHandling\GameStateHandlingConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenCapture.cs" />
+    <Compile Include="Environment\ScreenCapture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
