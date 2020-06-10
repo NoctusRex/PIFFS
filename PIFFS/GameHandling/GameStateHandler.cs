@@ -62,30 +62,58 @@ namespace PIFFS
                     break;
             }
 
+            Input.Wait(4);
             Console.WriteLine("End handling game state" + Environment.NewLine);
         }
 
         private static void HandleRoundEndNewAbility()
         {
-            //TODO
+            Console.WriteLine("Handling new ability");
+
+            Input.Wait(3);
 
             if (Configuration.IgnoreNewAbilities)
             {
-
+                Input.Right();
+                Input.Wait(3);
+                Input.Space();
+                Input.Wait(3);
+                Input.Space();
+                Input.Wait(3);
                 return;
             }
-            
+
+            Input.Space();
+            Input.Wait(3);
+            Input.Space();
+            Input.Wait(3);
+            Input.Space();
+            Input.Wait(3);
+            Input.Space();
+            Input.Wait(3);
+            Input.Space();
+            Input.Wait(3);
+            Input.Space();
+            Input.Wait(3);
+            Input.Space();
+            Input.Wait(3);
+            Input.Space();
+            Input.Wait(3);
         }
 
         private static void HandleRoundEndPlayerDied()
         {
-            //TODO
+            HandleDialoge();
+            Save();
+            throw new Exception("You died looser!");
         }
 
         private static void HandleInBattle()
         {
-            //TODO: Realy needed or use unkown?
             Console.WriteLine("Handling in battle");
+
+            while (!GameState.IsAttackButtonSelected() && GameState.IsInBattle()) { Input.Right(); Input.Wait(4); GameState.TakeScreenShot(); }
+
             Input.Wait(8);
         }
 
@@ -93,9 +121,10 @@ namespace PIFFS
         {
             Console.WriteLine("Pokemon died");
             Input.Space();
-            Input.Wait(8);
+            Input.Wait(16);
 
             Console.WriteLine("Selecting next pokemon");
+            GameState.TakeScreenShot();
             int index = GameState.GetNextAlivePokemonIndex();
             for (int i = 0; i < 6; i++)
             {
@@ -129,18 +158,28 @@ namespace PIFFS
         {
             Console.WriteLine("Handling ouf of battle");
 
-            if(Configuration.AutoSave && LastSave.AddMinutes(Configuration.AutoSaveIntervallInMinutes) > DateTime.Now)
+            if (Configuration.AutoSave && LastSave.AddMinutes(Configuration.AutoSaveIntervallInMinutes) < DateTime.Now)
             {
                 LastSave = DateTime.Now;
                 Save();
             }
 
-            Input.MoveInCirle();
+            Input.LeftRight();
         }
 
         private static void Save()
         {
-            //TODO
+            Console.WriteLine("Handling Save");
+            Input.Wait(4);
+            Input.ESC();
+
+            while (!GameState.IsSaveButtonSelected() && !GameState.IsInBattle()) { Console.WriteLine("Selecting save button");  Input.Down(); Input.Wait(4); }
+
+            Input.Space();
+            Input.Wait(4);
+            Input.Space();
+            Input.Wait(6);
+            Input.Space();
         }
 
         private static void HandleAttackButtonSelected()
@@ -155,63 +194,61 @@ namespace PIFFS
                 case Attack.Init:
                     Console.WriteLine("Executing attack 1");
                     NextAttack = Attack.Two;
-                    Input.Wait(4);
+                    Input.Wait(6);
                     Input.Space();
-                    Input.Wait(2);
+                    Input.Wait(4);
 
                     break;
                 case Attack.One:
                     Console.WriteLine("Executing attack 1");
                     NextAttack = Attack.Two;
 
-                    Input.Wait(4);
+                    Input.Wait(6);
                     Input.Up();
-                    Input.Wait(2);
+                    Input.Wait(4);
                     Input.Left();
-                    Input.Wait(2);
+                    Input.Wait(4);
                     Input.Space();
-                    Input.Wait(2);
+                    Input.Wait(4);
 
                     break;
                 case Attack.Two:
                     Console.WriteLine("Executing attack 2");
                     NextAttack = Attack.Three;
 
-                    Input.Wait(4);
+                    Input.Wait(6);
                     Input.Right();
-                    Input.Wait(2);
+                    Input.Wait(4);
                     Input.Space();
-                    Input.Wait(2);
+                    Input.Wait(4);
 
                     break;
                 case Attack.Three:
                     Console.WriteLine("Executing attack 3");
                     NextAttack = Attack.Four;
 
-                    Input.Wait(4);
+                    Input.Wait(6);
                     Input.Left();
-                    Input.Wait(2);
+                    Input.Wait(4);
                     Input.Down();
-                    Input.Wait(2);
+                    Input.Wait(4);
                     Input.Space();
-                    Input.Wait(2);
+                    Input.Wait(4);
 
                     break;
                 case Attack.Four:
                     Console.WriteLine("Executing attack 4");
                     NextAttack = Attack.One;
 
-                    Input.Wait(4);
+                    Input.Wait(6);
                     Input.Right();
-                    Input.Wait(2);
+                    Input.Wait(4);
                     Input.Space();
-                    Input.Wait(2);
+                    Input.Wait(4);
 
                     break;
             }
 
-            Console.WriteLine("Waiting for animation to play");
-            Input.Wait(8 * 5);
         }
 
         private static void HandleDialoge()

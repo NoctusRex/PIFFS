@@ -39,16 +39,37 @@ namespace PIFFS
 
             if (!IsInPokemon()) return GameStates.OutOfPokemon;
             bool isInBattle = IsInBattle();
-            // if (IsOutOfBattle()) return GameStates.OutOfBattle; // TOTO
             if (IsDialogeShowing()) return GameStates.Dialoge;
             if (isInBattle && IsAttackButtonSelected()) return GameStates.AttackButtonSelected;
-            if (isInBattle && IsInLevelUp()) return GameStates.RoundEndLevelUp;
-            if (isInBattle && IsInDeathScreen()) return GameStates.RoundEndPokemonDied;
-            // if (IsInNewAbility()) return GameStates.RoundEndNewAbility; // TOTO
-            // if (IsInPlayerDeathScreen()) return GameStates.RoundEndPlayerDied; // TOTO
+            if (IsInLevelUp()) return GameStates.RoundEndLevelUp;
+            if (IsInNewAbility()) return GameStates.RoundEndNewAbility;
+            if (IsInDeathScreen()) return GameStates.RoundEndPokemonDied;
+            if (IsInPlayerDeathScreen()) return GameStates.RoundEndPlayerDied;
             if (isInBattle) return GameStates.InBattle; // Has to be at the end, in order to check for all events
+            if (IsOutOfBattle()) return GameStates.OutOfBattle;
 
             return GameStates.Unknown;
+        }
+
+        public static bool IsInPlayerDeathScreen()
+        {
+            Console.WriteLine("Checking if is in player death screen");
+            return CheckPixelColor(984, 437, 248, 248, 248);
+        }
+
+        public static bool IsInNewAbility()
+        {
+            Console.WriteLine("Checking if is new ability");
+            return CheckPixelColor(70, 668, 248, 248, 248) && CheckPixelColor(110, 675, 248, 248, 248) && CheckPixelColor(124, 687, 248, 248, 248);
+        }
+
+        public static bool IsOutOfBattle()
+        {
+            Console.WriteLine("Checking if is not in battle");
+
+            if (IsInBattle() || IsDialogeShowing() || IsInLevelUp() || IsInDeathScreen() || IsInNewAbility() || IsInPlayerDeathScreen()) return false;
+
+            return true;
         }
 
         public static bool IsAttackButtonSelected()
@@ -75,7 +96,7 @@ namespace PIFFS
         public static bool IsInLevelUp()
         {
             Console.WriteLine("Checking if level up");
-            return CheckPixelColor(650, 45, 39, 39, 39) && CheckPixelColor(1005, 454, 39, 39, 39); // Levelup stats window corners
+            return CheckPixelColor(650, 45, 39, 39, 39) && CheckPixelColor(1005, 454, 23, 23, 23); // Levelup stats window corners
         }
 
         public static bool IsInDeathScreen()
@@ -89,14 +110,26 @@ namespace PIFFS
             Console.WriteLine("Getting next alive pokemon");
 
             // check color of each pokemon slot, if green it is alive
-            if (CheckPixelColor(496, 54, 0, 104, 32)) return 0;
-            if (CheckPixelColor(1008, 86, 0, 104, 32)) return 1;
-            if (CheckPixelColor(496, 246, 0, 104, 32)) return 2;
-            if (CheckPixelColor(1008, 278, 0, 104, 32)) return 3;
-            if (CheckPixelColor(496, 438, 0, 104, 32)) return 4;
-            if (CheckPixelColor(1008, 470, 0, 104, 32)) return 5;
+            if (CheckPixelColor(496, 53, 104, 216, 112)) return 0;
+            if (CheckPixelColor(1008, 85, 104, 216, 112)) return 1;
+            if (CheckPixelColor(496, 245, 104, 216, 112)) return 2;
+            if (CheckPixelColor(1008, 277, 104, 216, 112)) return 3;
+            if (CheckPixelColor(496, 437, 104, 216, 112)) return 4;
+            if (CheckPixelColor(1008, 469, 104, 216, 112)) return 5;
 
             return -1;
+        }
+
+        public static bool IsSaveButtonSelected()
+        {
+            try
+            {
+                TakeScreenShot();
+            }
+            catch { return false; }
+
+            return CheckPixelColor(710, 340, 88, 88, 80);
+
         }
 
         public static bool CheckPixelColor(int x, int y, int R, int G, int B)

@@ -6,12 +6,6 @@ namespace PIFFS
 {
     class Program
     {
-
-
-        /// <summary>
-        /// TODOs: Levelup -> Space, Death -> select Next, New Ability -> User Interaction or NO, NO AP left -> ?, better timing, Check if out of battle instead of time out
-        /// </summary>
-
         static void Main(string[] args)
         {
             try

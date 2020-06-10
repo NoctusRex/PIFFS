@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using WindowsInput;
 using WindowsInput.Native;
 
@@ -14,14 +10,11 @@ namespace PIFFS
         static KeyboardSimulator Keyboard { get; set; } = new KeyboardSimulator(new InputSimulator());
         public static int KeyHoldDurationInMilliSeconds { get; private set; } = 125;
 
-        public static void MoveInCirle()
+        public static void LeftRight()
         {
-            Console.WriteLine("Circle start");
-            Right();
-            Down();
             Left();
-            Up();
-            Console.WriteLine("Circle end");
+            Wait();
+            Right();
         }
 
         public static void Space()
